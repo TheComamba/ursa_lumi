@@ -89,8 +89,8 @@ where
 - $g_\text{flare} = 0.545\cdot10^{-6}\text{ pc}^{-1}$ is a flare parameter.
 - $H(R-R_\text{flace})=\left\lbrace \begin{matrix} 1&, &R\geq R_\text{flare} \\ 0&, &R< R_\text{flare} \\ \end{matrix} \right.$ is the Heavyside step-function which assures that the flare factor only plays a role after a certain radius (compare [Robin2003][Robin2003], Sec. 2.1.3).
 - $a^2 = R^2 + \left(z / \epsilon / k_\text{flare}\right)^2$ is a somewhat adjusted distance from the galactic center, where the scale height $\epsilon$ is scaled by the flare factor (compare [Robin2003][Robin2003], Sec. 2.1.3).
-- $h_+ = 5000$ pc is a radial decay factor dominating at larger distances.
-- $h_- = 3000$ pc is another radial decay factor dominating at smaller distances.
+- $h_+ = 5000$ pc is a radial decay length dominating at larger distances.
+- $h_- = 3000$ pc is another radial decay length dominating at smaller distances.
 - $\rho_0$ and $\epsilon$ are taken from the table above. 
 
 [todo_density]: <Determine normalization factor d_0>
@@ -101,7 +101,47 @@ $$\rho(R,z) = \frac{\rho_0}{d_0 k_\text{flare}}\left[\exp\left(-\sqrt{0.25 + \fr
 where
 - $h_+ = 2530$ pc is a radial decay factor dominating at larger distances.
 - $h_- = 1320$ pc is another radial decay factor dominating at smaller distances.
-- the other parameters are as above.
+- the other parameters are the same as before.
+
+#### Inner Thick Disc Stars ($|z| \leq x_l$)
+
+$$\rho(R,z) = \frac{\rho_0}{d_0 k_\text{flare}} \exp \left( - \frac{R-R_\odot}{h_R} \right) \left( 1 - \frac{z^2}{h_z x_l (2 + x_l / h_z)}\right) \,,$$
+where
+- $x_l = 72$ pc is a height threshold.
+- $R_\odot = ???$
+- $h_R = 4000$ pc is a radial decay length.
+- $h_z = k_\text{flare} \cdot 1200$ pc is a decay hight adjusted by the flare factor.
+- the other parameters are the same as before.
+
+[todo_scale_height]: <Have I correctly implemented the flare factor here?>
+
+#### Outer Thick Disc Stars ($|z| > x_l$)
+
+$$\rho(R,z) = \frac{\rho_0}{d_0 k_\text{flare}}\exp \left( - \frac{R-R_\odot}{h_R} - \frac{|z|}{h_z}\right) \frac{\exp \left( \frac{x_l}{h_z} \right)}{1 + \frac{x_l}{2h_z} } \,,$$
+where all parameters are the same as before.
+
+Note that [Robin2010][Robin2010] lists this formula without the factors $d_0$ and $k_\text{flare}$, but comparing to [Robin2003][Robin2003], I think they may have been forgotten here.
+
+#### Inner Spheroid ($a \leq a_c$)
+
+$$\rho(R,z) = \frac{\rho_0}{d_0} \left( \frac{a_c}{R_\odot}\right)^{-2.44} \,,$$
+where
+- $a_c = 500$ pc describes the boundary of a spheroid.
+- the other parameters are the same as before.
+
+Note that the density for the population in this regime is constant.
+
+#### Outer Spheroid ($a > a_c$)
+
+$$\rho(R,z) = \frac{\rho_0}{d_0} \left( \frac{a}{R_\odot}\right)^{-2.44} \,,$$
+where all parameters are the same as before.
+
+Note that [Robin2010][Robin2010] lists this formula without the normalisation factor $d_0$, but comparing to [Robin2003][Robin2003] and considering that the density should probably be continuous at $a = a_c$, it was probably forgotten.
+
+#### Inner Bulge ($R \leq R_c$)
+
+$$\rho(R,z) = N \exp\left( - 0.5 r_s^2 \right)$$
+TODO: continue
 
 [Robin2003]: https://github.com/TheComamba/UrsaLumi/blob/dev/documenting-physics/Documentation/Literature/Robin2003.pdf
 [Robin2010]: https://github.com/TheComamba/UrsaLumi/blob/dev/documenting-physics/Documentation/Literature/Robin2010.pdf
