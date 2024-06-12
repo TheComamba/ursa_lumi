@@ -138,10 +138,29 @@ where all parameters are the same as before.
 
 Note that [Robin2010][Robin2010] lists this formula without the normalisation factor $d_0$, but comparing to [Robin2003][Robin2003] and considering that the density should probably be continuous at $a = a_c$, it was probably forgotten.
 
-#### Inner Bulge ($R \leq R_c$)
+#### Inner Bulge ($\sqrt{x_B^2+y_B^2} \leq R_c$)
 
-$$\rho(R,z) = N \exp\left( - 0.5 r_s^2 \right)$$
-TODO: continue
+$$\rho(x_B,y_B,z_B) = N \exp\left( - 0.5 r_s^2 \right) \,,$$
+where
+$$r_s^2 = \sqrt{\left[\left(\frac{x_B}{x_0}\right)^2 + \left(\frac{y_B}{y_0}\right)^2\right]^2 + \left(\frac{z_B}{z_0}\right)^4}$$
+and (compare [Robin2003][Robin2003], Table 5)
+- $x_B$, $y_B$ and $z_B$ are the cartesian coordinates in the bulge's frame of reference.
+- $\alpha = 78.9^\circ$ is the angle between the bulge major axis and the line perpendicular to the sun - galactic center line.
+- $\beta = 3.5^\circ$ is the tilt angle between the bulge plane and the galactic plane.
+- $\gamma = 91.3^\circ$ is the roll angle around the bulge major axis.
+- $x_0 = 1.59$ kpc is the scale length along the major axis.
+- $y_0 = 0.424$ kpc is the scale length along one of the minor axes.
+- $z_0 = 0.424$ kpc is the scale length along the other minor axis.
+- $R_c = 2.54$ kpc is the cutoff distance
+- $N = 13.70 \text{ stars pc}^{-3}$ is the star density at the center of the bulge.
+
+#### Outer Bulge ($\sqrt{x_B^2+y_B^2} > R_c$)
+
+$$\rho(x_B,y_B,z_B) = N \exp\left[ - 0.5 r_s^2 -0.2 \left( \sqrt{x_B^2 + y_B^2} - R_c\right)^2\right] \,,$$
+where all parameters are the same as before.
+
+Note that the formula in [Robin2010][Robin2010] contains a $e^{-5}$ inside the exponent. I am confident that this is a typo.
+
 
 [Robin2003]: https://github.com/TheComamba/UrsaLumi/blob/dev/documenting-physics/Documentation/Literature/Robin2003.pdf
 [Robin2010]: https://github.com/TheComamba/UrsaLumi/blob/dev/documenting-physics/Documentation/Literature/Robin2010.pdf
