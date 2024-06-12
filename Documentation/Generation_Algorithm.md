@@ -108,7 +108,7 @@ where
 $$\rho(R,z) = \frac{\rho_0}{d_0 k_\text{flare}} \exp \left( - \frac{R-R_\odot}{h_R} \right) \left( 1 - \frac{z^2}{h_z x_l (2 + x_l / h_z)}\right) \,,$$
 where
 - $x_l = 72$ pc is a height threshold.
-- $R_\odot = ???$
+- $R_\odot = 8.2$ kpc is the disctance of the sun from the galactic center.
 - $h_R = 4000$ pc is a radial decay length.
 - $h_z = k_\text{flare} \cdot 1200$ pc is a decay hight adjusted by the flare factor.
 - the other parameters are the same as before.
