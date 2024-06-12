@@ -52,33 +52,36 @@ Stars in the milky way can be divided in several different populations. Each of 
 - The current age of stars in a population can either be a range, or a specific value that's basically the same for all. In case of white dwarfs, the age is irrelevant because of the vast timescales on which they develop.
 - The local density $\rho_0$ can be consered a constant scale factor of the mass density of stars in a given population.
 - The axis ratio $\epsilon$ is the ratio of _scale height_ and _scale length_: The stellar mass density for many populations in the milky way exponentially decreases on a characteristic height scale when moving above or below the galactic plane, and it decreases on a charactersitic length scale when moving outwards radially.
-- The metallicity is defined as
-  $$\langle[\text{Fe/H}]\rangle = \log_{10}\left(\frac{N_\text{Fe}}{N_\text{H}}\right)_\ast - \log_{10}\left(\frac{N_\text{Fe}}{N_\text{H}}\right)_\odot \,,$$
-  the logarithmic ratio of the number of iron and hydrogen atoms as compared to their ratio in the sun. It is measured in dex.
-
-  Note that in the thin disc, a radial metallcity dispersion of $-0.07$ dex/kpc is present.
-
-[todo_metallicity]: <Are the metallcitiy values in the table refering to those at the center, at the position of the sun, or are they the mean over the whole of the milky way?>
 
 Parameters for the different populations are given as follows (copied from [Robin2010][Robin2010], Table 1):
-|Population|Age [Gyr]| $\rho_0$ [$M_\odot \text{pc}^{-3}$] | $\epsilon$ | $\langle[\text{Fe/H}]\rangle$ [dex] |
-|---|---|---|---|---|
-| Thin disc | $0-0.15$ | $4.0\cdot10^{-3}$ | $0.0140$ | $\phantom{-}0.01\pm0.010$ |
-|| $0.15-1$ | $7.9\cdot10^{-3}$ | $0.0268$ | $\phantom{-}0.00\pm0.11$ |
-|| $1-2$ | $6.2\cdot10^{-3}$ | $0.0375$ | $-0.02\pm0.12$ |
-|| $2-3$ | $4.0\cdot10^{-3}$ | $0.0551$ | $-0.03\pm0.125$ |
-|| $3-5$ | $4.0\cdot10^{-3}$ | $0.0696$ | $-0.05\pm0.135$ |
-|| $5-7$ | $4.9\cdot10^{-3}$ | $0.0785$ | $-0.09\pm0.16$ |
-|| $7-10$ | $6.6\cdot10^{-3}$ | $0.0791$ | $-0.12\pm0.18$ |
-|| White dwarf | $3.96\cdot10^{-3}$ | - | - |
-| Thick disc | $11$ | $1.34\cdot10^{-3}$ | - | $-0.50\pm0.30$ |
-|| White dwarf | $3.04\cdot10^{-4}$ | - | - |
-| Spheroid | $14$ | $9.32\cdot10^{-6}$ | $0.76$ | $-1.5\pm0.50$ |
-| Bulge | $10$ | - | - | $\phantom{-}0.00\pm0.20$ |
+|Population|Age [Gyr]| $\rho_0$ [$M_\odot \text{pc}^{-3}$] | $\epsilon$ | 
+|---|---|---|---|
+| Thin disc | $0-0.15$ | $4.0\cdot10^{-3}$ | $0.0140$ |
+|| $0.15-1$ | $7.9\cdot10^{-3}$ | $0.0268$ | 
+|| $1-2$ | $6.2\cdot10^{-3}$ | $0.0375$ |
+|| $2-3$ | $4.0\cdot10^{-3}$ | $0.0551$ |
+|| $3-5$ | $4.0\cdot10^{-3}$ | $0.0696$ |
+|| $5-7$ | $4.9\cdot10^{-3}$ | $0.0785$ |
+|| $7-10$ | $6.6\cdot10^{-3}$ | $0.0791$ |
+|| White dwarf | $3.96\cdot10^{-3}$ | - |
+| Thick disc | $11$ | $1.34\cdot10^{-3}$ |
+|| White dwarf | $3.04\cdot10^{-4}$ | - |
+| Spheroid | $14$ | $9.32\cdot10^{-6}$ | $0.76$ |
+| Bulge | $10$ | - | - |
+
+Section 2.1.1. of [Robin2003][Robin2003] lists the total masses of the different populations. Together with the density laws listed below, this leads to values for the normalisation factors $d_0$.
+| Population | Total Mass [$M_\odot$] | $d_0$ |
+| --- | --- | --- |
+| Thin disc | $2.15\cdot 10^{10}$ | TODO |
+| Thick disc | $3.91\cdot 10^9$ | TODO |
+| Spheroid | $2.64\cdot 10^8$ | TODO |
+| Bulge | $2.03\cdot 10^{10}$ | - |
+
+#### Density Laws
 
 According to Table 2 of [Robin2010][Robin2010], the mass densities for the different populations are given by the following forumlae:
 
-#### Young Thin Disc Stars (age $\leq 0.15$ Gyr)
+##### Young Thin Disc Stars (age $\leq 0.15$ Gyr)
 
 Given the radial distance from the galactic center $R^2 = x^2+y^2$, the density at a position is modelled as
 $$\rho(R,z) = \frac{\rho_0}{d_0 k_\text{flare}}\left[\exp\left(-\frac{a^2}{h_+^2}\right) - \exp\left(-\frac{a^2}{h_-^2}\right)\right]\,,$$
@@ -95,7 +98,7 @@ where
 
 [todo_density]: <Determine normalization factor d_0>
 
-#### Older Thin Disc Stars (age $> 0.15$ Gyr)
+##### Older Thin Disc Stars (age $> 0.15$ Gyr)
 
 $$\rho(R,z) = \frac{\rho_0}{d_0 k_\text{flare}}\left[\exp\left(-\sqrt{0.25 + \frac{a^2}{h_+^2}}\right) - \exp\left[-\sqrt{0.25 + \frac{a^2}{h_-^2}}\right)\right]\,,$$
 where
@@ -103,7 +106,7 @@ where
 - $h_- = 1320$ pc is another radial decay factor dominating at smaller distances.
 - the other parameters are the same as before.
 
-#### Inner Thick Disc Stars ($|z| \leq x_l$)
+##### Inner Thick Disc Stars ($|z| \leq x_l$)
 
 $$\rho(R,z) = \frac{\rho_0}{d_0 k_\text{flare}} \exp \left( - \frac{R-R_\odot}{h_R} \right) \left( 1 - \frac{z^2}{h_z x_l (2 + x_l / h_z)}\right) \,,$$
 where
@@ -115,14 +118,14 @@ where
 
 [todo_scale_height]: <Have I correctly implemented the flare factor here?>
 
-#### Outer Thick Disc Stars ($|z| > x_l$)
+##### Outer Thick Disc Stars ($|z| > x_l$)
 
 $$\rho(R,z) = \frac{\rho_0}{d_0 k_\text{flare}}\exp \left( - \frac{R-R_\odot}{h_R} - \frac{|z|}{h_z}\right) \frac{\exp \left( \frac{x_l}{h_z} \right)}{1 + \frac{x_l}{2h_z} } \,,$$
 where all parameters are the same as before.
 
 Note that [Robin2010][Robin2010] lists this formula without the factors $d_0$ and $k_\text{flare}$, but comparing to [Robin2003][Robin2003], I think they may have been forgotten here.
 
-#### Inner Spheroid ($a \leq a_c$)
+##### Inner Spheroid ($a \leq a_c$)
 
 $$\rho(R,z) = \frac{\rho_0}{d_0} \left( \frac{a_c}{R_\odot}\right)^{-2.44} \,,$$
 where
@@ -131,14 +134,14 @@ where
 
 Note that the density for the population in this regime is constant.
 
-#### Outer Spheroid ($a > a_c$)
+##### Outer Spheroid ($a > a_c$)
 
 $$\rho(R,z) = \frac{\rho_0}{d_0} \left( \frac{a}{R_\odot}\right)^{-2.44} \,,$$
 where all parameters are the same as before.
 
 Note that [Robin2010][Robin2010] lists this formula without the normalisation factor $d_0$, but comparing to [Robin2003][Robin2003] and considering that the density should probably be continuous at $a = a_c$, it was probably forgotten.
 
-#### Inner Bulge ($\sqrt{x_B^2+y_B^2} \leq R_c$)
+##### Inner Bulge ($\sqrt{x_B^2+y_B^2} \leq R_c$)
 
 $$\rho(x_B,y_B,z_B) = N \exp\left( - 0.5 r_s^2 \right) \,,$$
 where
@@ -154,12 +157,81 @@ and (compare [Robin2003][Robin2003], Table 5)
 - $R_c = 2.54$ kpc is the cutoff distance
 - $N = 13.70 \text{ stars pc}^{-3}$ is the star density at the center of the bulge.
 
-#### Outer Bulge ($\sqrt{x_B^2+y_B^2} > R_c$)
+Note that contrary to the previous density laws, this is a number density.
+
+##### Outer Bulge ($\sqrt{x_B^2+y_B^2} > R_c$)
 
 $$\rho(x_B,y_B,z_B) = N \exp\left[ - 0.5 r_s^2 -0.2 \left( \sqrt{x_B^2 + y_B^2} - R_c\right)^2\right] \,,$$
 where all parameters are the same as before.
 
 Note that the formula in [Robin2010][Robin2010] contains a $e^{-5}$ inside the exponent. I am confident that this is a typo.
+
+#### Initial Mass Functions
+
+The initial mass function $IMF$ is the distribution of masses of a newly formed star. It varies between populations, but is always modelled as a power law. 
+
+Since the simulation of brown dwarfs is beyond the scope of this project, all distributions begin at $m> 0.07 M_\odot$, because this marks the minimal mass required to fuse hydrogen.
+
+Table 4 of [Robin2010][Robin2010] lists it as follows:
+
+##### Thin Disc
+
+$$IMF(m) = \left\lbrace \begin{matrix} 
+A_1 m ^{-1.1} &,& m < 0.6 M_\odot \\
+A_2 m^{-1.6} &,& 0.6 M_\odot < m < M_\odot \\
+A_3 m^{-3.0} &,& m > M_\odot
+\end{matrix}\right. \,,$$
+where
+- $A_1 = TODO$
+- $A_2 = TODO$
+- $A_3 = TODO$
+
+are chosen such that the function is continuous and normalised.
+
+##### Thick Disc
+
+$$IMF(m) = A m^{-0.5} \,,$$ 
+where
+- $A = TODO$ is a normalisation factor.
+
+##### Spheroid
+
+$$IMF(m) = A m^{-0.5} \,,$$ 
+where
+- $A = TODO$ is a normalisation factor.
+
+##### Bulge
+
+$$IMF(m) = A m^{-2.35} \,,$$ 
+where
+- this distribution begins at $m > 0.7 M_\odot$
+- $A = TODO$ is a normalisation factor.
+
+#### Metallicity
+
+The metallicity is defined as
+
+$$\langle[\text{Fe/H}]\rangle = \log_{10}\left(\frac{N_\text{Fe}}{N_\text{H}}\right)_\ast - \log_{10}\left(\frac{N_\text{Fe}}{N_\text{H}}\right)_\odot \,,$$
+  the logarithmic ratio of the number of iron and hydrogen atoms as compared to their ratio in the sun. It is measured in dex.
+
+Table 5 of [Robin2010][Robin2010] lists the metallicities for the different populations as follows:
+
+|Population|Age [Gyr]| $\langle[\text{Fe/H}]\rangle$ [dex] |
+|---|---|---|
+| Thin disc | $0-0.15$ | $\phantom{-}0.01\pm0.010$ |
+|| $0.15-1$ | $\phantom{-}0.00\pm0.11$ |
+|| $1-2$ | $-0.02\pm0.12$ |
+|| $2-3$ | $-0.03\pm0.125$ |
+|| $3-5$ | $-0.05\pm0.135$ |
+|| $5-7$ | $-0.09\pm0.16$ |
+|| $7-10$ | $-0.12\pm0.18$ |
+| Thick disc | $11$ | $-0.50\pm0.30$ |
+| Spheroid | $14$ | $-1.5\pm0.50$ |
+| Bulge | $10$ | $\phantom{-}0.00\pm0.20$ |
+
+Note that in the thin disc, a radial metallcity dispersion of $-0.07$ dex/kpc is present.
+
+[todo_metallicity]: <Are the metallcitiy values in the table refering to those at the center, at the position of the sun, or are they the mean over the whole of the milky way?>
 
 
 [Robin2003]: https://github.com/TheComamba/UrsaLumi/blob/dev/documenting-physics/Documentation/Literature/Robin2003.pdf
