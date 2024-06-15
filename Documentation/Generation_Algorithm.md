@@ -17,9 +17,7 @@ The following parameters need to be specified when starting a simulation:
 
 The generation parameters are stored together with the output.
 
-## Initial Generation
-
-### Chunking the Galaxy
+## Chunking the Galaxy
 
 For the initial generation of stars the local environment of the observer is separated in chunks. Each chunk is a cube with edges that span $S_C = 15 \text{ pc}$. $S_C$ is called the "chunksize". A chunk is therefore characerised by the three ordinates of one of its corners. The first chunk contains the observer at its center. Its corner is therefore at the position
 $$C_0 = P_{\text{observer}} - \frac{1}{2}(S_C,S_C,S_C) \,.$$
@@ -46,7 +44,7 @@ Due to [branch prediction][branch-prediction], later steps will be faster on the
     if `x == -0`, `y == -0` or `z == -0`, continue.`
   - Add a chunk at $C_0 + (\pm_x x,\pm_y y,\pm_z z) S_C$ to the vector, where $C_0$ is the position of the observer chunk.
 
-### Adding Stars
+## Adding Stars
 
 Stars in the milky way can be divided in several different populations. Each of these populations has different properties:
 - The current age of stars in a population can either be a range, or a specific value that's basically the same for all. In case of white dwarfs, the age is irrelevant because of the vast timescales on which they develop.
@@ -77,14 +75,20 @@ Section 2.1.1. of [Robin2003][Robin2003] lists the total masses of the different
 | Spheroid | $2.64\cdot 10^8$ | TODO |
 | Bulge | $2.03\cdot 10^{10}$ | - |
 
-#### Density Laws
+### Density Laws
+
+Given a mass density $\rho_m$, and assuming that it is basically constant within a chunk, we can find the expected total mass inside that chunk as
+$$\langle m_{tot} \rangle = \rho_m(C) S_C^3\,,$$
+where
+- $C$ are the corner coordinates of the chunk.
+- $S_C$ is the chunksize.
 
 According to Table 2 of [Robin2010][Robin2010], the mass densities for the different populations are given by the following forumlae:
 
-##### Young Thin Disc Stars (age $\leq 0.15$ Gyr)
+#### Young Thin Disc Stars (age $\leq 0.15$ Gyr)
 
 Given the radial distance from the galactic center $R^2 = x^2+y^2$, the density at a position is modelled as
-$$\rho(R,z) = \frac{\rho_0}{d_0 k_\text{flare}}\left[\exp\left(-\frac{a^2}{h_+^2}\right) - \exp\left(-\frac{a^2}{h_-^2}\right)\right]\,,$$
+$$\rho_m(R,z) = \frac{\rho_0}{d_0 k_\text{flare}}\left[\exp\left(-\frac{a^2}{h_+^2}\right) - \exp\left(-\frac{a^2}{h_-^2}\right)\right]\,,$$
 where
 - $d_0$ is a normalization factor to have a density of 1 at the solar position.
 - $k_\text{flare} = 1 + (R-R_\text{flare})g_\text{flare}H(R-R_\text{flare})$ accounts for the increase of the thickness of the disc with galactocentric distance.
@@ -98,17 +102,17 @@ where
 
 [todo_density]: <Determine normalization factor d_0>
 
-##### Older Thin Disc Stars (age $> 0.15$ Gyr)
+#### Older Thin Disc Stars (age $> 0.15$ Gyr)
 
-$$\rho(R,z) = \frac{\rho_0}{d_0 k_\text{flare}}\left[\exp\left(-\sqrt{0.25 + \frac{a^2}{h_+^2}}\right) - \exp\left[-\sqrt{0.25 + \frac{a^2}{h_-^2}}\right)\right]\,,$$
+$$\rho_m(R,z) = \frac{\rho_0}{d_0 k_\text{flare}}\left[\exp\left(-\sqrt{0.25 + \frac{a^2}{h_+^2}}\right) - \exp\left[-\sqrt{0.25 + \frac{a^2}{h_-^2}}\right)\right]\,,$$
 where
 - $h_+ = 2530$ pc is a radial decay factor dominating at larger distances.
 - $h_- = 1320$ pc is another radial decay factor dominating at smaller distances.
 - the other parameters are the same as before.
 
-##### Inner Thick Disc Stars ($|z| \leq x_l$)
+#### Inner Thick Disc Stars ($|z| \leq x_l$)
 
-$$\rho(R,z) = \frac{\rho_0}{d_0 k_\text{flare}} \exp \left( - \frac{R-R_\odot}{h_R} \right) \left( 1 - \frac{z^2}{h_z x_l (2 + x_l / h_z)}\right) \,,$$
+$$\rho_m(R,z) = \frac{\rho_0}{d_0 k_\text{flare}} \exp \left( - \frac{R-R_\odot}{h_R} \right) \left( 1 - \frac{z^2}{h_z x_l (2 + x_l / h_z)}\right) \,,$$
 where
 - $x_l = 72$ pc is a height threshold.
 - $R_\odot = 8.2$ kpc is the disctance of the sun from the galactic center.
@@ -118,32 +122,32 @@ where
 
 [todo_scale_height]: <Have I correctly implemented the flare factor here?>
 
-##### Outer Thick Disc Stars ($|z| > x_l$)
+#### Outer Thick Disc Stars ($|z| > x_l$)
 
-$$\rho(R,z) = \frac{\rho_0}{d_0 k_\text{flare}}\exp \left( - \frac{R-R_\odot}{h_R} - \frac{|z|}{h_z}\right) \frac{\exp \left( \frac{x_l}{h_z} \right)}{1 + \frac{x_l}{2h_z} } \,,$$
+$$\rho_m(R,z) = \frac{\rho_0}{d_0 k_\text{flare}}\exp \left( - \frac{R-R_\odot}{h_R} - \frac{|z|}{h_z}\right) \frac{\exp \left( \frac{x_l}{h_z} \right)}{1 + \frac{x_l}{2h_z} } \,,$$
 where all parameters are the same as before.
 
 Note that [Robin2010][Robin2010] lists this formula without the factors $d_0$ and $k_\text{flare}$, but comparing to [Robin2003][Robin2003], I think they may have been forgotten here.
 
-##### Inner Spheroid ($a \leq a_c$)
+#### Inner Spheroid ($a \leq a_c$)
 
-$$\rho(R,z) = \frac{\rho_0}{d_0} \left( \frac{a_c}{R_\odot}\right)^{-2.44} \,,$$
+$$\rho_m(R,z) = \frac{\rho_0}{d_0} \left( \frac{a_c}{R_\odot}\right)^{-2.44} \,,$$
 where
 - $a_c = 500$ pc describes the boundary of a spheroid.
 - the other parameters are the same as before.
 
 Note that the density for the population in this regime is constant.
 
-##### Outer Spheroid ($a > a_c$)
+#### Outer Spheroid ($a > a_c$)
 
-$$\rho(R,z) = \frac{\rho_0}{d_0} \left( \frac{a}{R_\odot}\right)^{-2.44} \,,$$
+$$\rho_m(R,z) = \frac{\rho_0}{d_0} \left( \frac{a}{R_\odot}\right)^{-2.44} \,,$$
 where all parameters are the same as before.
 
 Note that [Robin2010][Robin2010] lists this formula without the normalisation factor $d_0$, but comparing to [Robin2003][Robin2003] and considering that the density should probably be continuous at $a = a_c$, it was probably forgotten.
 
-##### Inner Bulge ($\sqrt{x_B^2+y_B^2} \leq R_c$)
+#### Inner Bulge ($\sqrt{x_B^2+y_B^2} \leq R_c$)
 
-$$\rho(x_B,y_B,z_B) = N \exp\left( - 0.5 r_s^2 \right) \,,$$
+$$\rho_N(x_B,y_B,z_B) = N \exp\left( - 0.5 r_s^2 \right) \,,$$
 where
 $$r_s^2 = \sqrt{\left[\left(\frac{x_B}{x_0}\right)^2 + \left(\frac{y_B}{y_0}\right)^2\right]^2 + \left(\frac{z_B}{z_0}\right)^4}$$
 and (compare [Robin2003][Robin2003], Table 5)
@@ -159,22 +163,25 @@ and (compare [Robin2003][Robin2003], Table 5)
 
 Note that contrary to the previous density laws, this is a number density.
 
-##### Outer Bulge ($\sqrt{x_B^2+y_B^2} > R_c$)
+#### Outer Bulge ($\sqrt{x_B^2+y_B^2} > R_c$)
 
-$$\rho(x_B,y_B,z_B) = N \exp\left[ - 0.5 r_s^2 -0.2 \left( \sqrt{x_B^2 + y_B^2} - R_c\right)^2\right] \,,$$
+$$\rho_N(x_B,y_B,z_B) = N \exp\left[ - 0.5 r_s^2 -0.2 \left( \sqrt{x_B^2 + y_B^2} - R_c\right)^2\right] \,,$$
 where all parameters are the same as before.
 
 Note that the formula in [Robin2010][Robin2010] contains a $e^{-5}$ inside the exponent. I am confident that this is a typo.
 
-#### Initial Mass Functions
+### Initial Mass Functions
 
 The initial mass function $IMF$ is the distribution of masses of a newly formed star. It varies between populations, but is always modelled as a power law. 
+
+For each IMF we can find an expectation value $\langle m \rangle$, which together with the expectation value of the total mass given by the density law can in turn be used to calculate the expected number of stars in a chunk:
+$$\langle N \rangle = \frac{\langle m_{tot}\rangle}{\langle m \rangle}$$
 
 Since the simulation of brown dwarfs is beyond the scope of this project, all distributions begin at $m> 0.07 M_\odot$, because this marks the minimal mass required to fuse hydrogen.
 
 Table 4 of [Robin2010][Robin2010] lists it as follows:
 
-##### Thin Disc
+#### Thin Disc
 
 $$IMF(m) = \left\lbrace \begin{matrix} 
 A_1 m ^{-1.1} &,& m < 0.6 M_\odot \\
@@ -188,26 +195,26 @@ where
 
 are chosen such that the function is continuous and normalised.
 
-##### Thick Disc
+#### Thick Disc
 
 $$IMF(m) = A m^{-0.5} \,,$$ 
 where
 - $A = TODO$ is a normalisation factor.
 
-##### Spheroid
+#### Spheroid
 
 $$IMF(m) = A m^{-0.5} \,,$$ 
 where
 - $A = TODO$ is a normalisation factor.
 
-##### Bulge
+#### Bulge
 
 $$IMF(m) = A m^{-2.35} \,,$$ 
 where
 - this distribution begins at $m > 0.7 M_\odot$
 - $A = TODO$ is a normalisation factor.
 
-#### Metallicity
+### Metallicity
 
 The metallicity is defined as
 
@@ -232,6 +239,22 @@ Table 5 of [Robin2010][Robin2010] lists the metallicities for the different popu
 Note that in the thin disc, a radial metallcity dispersion of $-0.07$ dex/kpc is present.
 
 [todo_metallicity]: <Are the metallcitiy values in the table refering to those at the center, at the position of the sun, or are they the mean over the whole of the milky way?>
+
+### Algorithm
+- For each requested population calculate the expected number of stars within a chunk.
+- TODO: Calculate the minimal luminous intensity needed to reach the magnitude threshold.
+- Sample the actual number of stars from a Poisson distribution.
+- Generate the stars and assign
+  - an initial mass, sampled from the IMF.
+  - a metallicity sampled from a Gaussian distribution.
+  - an age, depending on the population either uniformly distributed in the range, or at the time of a star formation burst.
+- TODO: Calculate and assign the current mean luminous intensity.
+- If the star is below the luminous intensity threshold, discard it.
+- Otherwise, assign
+  - a 3D position sampled from a uniform distribution inside the chunk.
+  - the current mass.
+  - the effective temperature.
+  - the population it belongs to.
 
 
 [Robin2003]: https://github.com/TheComamba/UrsaLumi/blob/dev/documenting-physics/Documentation/Literature/Robin2003.pdf
