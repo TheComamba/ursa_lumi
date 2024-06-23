@@ -268,8 +268,11 @@ $$M_\ast - M_\odot = -2.5 \log_{10} \left( \frac{L_\ast}{L_\odot} \right) .$$
 The absolute magnitude of the sun is $4.8$.
 
 Putting this in the equation above yields
+
 $$ m _ \ast = M _ \odot - 2.5 \log _ {10} \left( \frac{L _ \ast}{L _ \odot} \right) + 5 \log _ {10}(d) -5 ,$$
+
 which equals
+
 $$ m _ \ast = -0.2 - 2.5 \log _ {10} \left( \frac{L _ \ast}{L _ \odot d^2} \right) .$$
 
 The UrsaLumi input involves a threshold of apparent magnitude $m_<$ below which an apparent magnitude must be to be included (remember that lower magnitudes somewhat unintuitively denote brighter stars).
