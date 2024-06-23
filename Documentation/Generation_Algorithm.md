@@ -240,15 +240,65 @@ Note that in the thin disc, a radial metallcity dispersion of $-0.07$ dex/kpc is
 
 [todo_metallicity]: <Are the metallcitiy values in the table refering to those at the center, at the position of the sun, or are they the mean over the whole of the milky way?>
 
+### Luminous Intensity
+
+Luminous intensity is a measure for the brightness of an object as perceived by the human eye. It is [defined](https://www.nist.gov/si-redefinition/candela) as the photometric power (the luminosity) radiated at a specific green wavelength.
+
+In astronomy, luminous intensity as well as luminosity is typically measured in aboslute magnitude, which is a unitless number defined as the apparent magnitude the object would have at a distance of 10 parsecs (see Section 3.2 of [Luciuk2019][Luciuk2019]). The apparent magnitude $m$ in turn is defined as 
+
+$$m=-2.5 \log_{10}\left(\frac{L}{L_0}\right) ,$$
+where
+- $L$ is the luminous intensity or luminosity of the object.
+- $L_0$ is the luminous intensity or luminosity of the star Vega, which serves as the reference.
+
+Absolute and apparent magnitude can be converted into one another via the equation:
+$$m_\ast = M_\ast + 5 \log_{10}(d) -5 ,$$
+where
+- $m$ is the apparent magnitude.
+- $M$ is the absolute magnitude.
+- $d$ is the distance in units of parsec.
+
+At a distance of 10 parsecs apparent and absolute magnitude are identical. The absolute magnitude can thus be found by comparing with the reference value of the sun:
+
+$$M_\ast - M_\odot = -2.5 \log_{10} \left( \frac{L_\ast}{L_\odot} \right) .$$
+
+The absolute magnitude of the sun is $4.8$.
+
+Putting this in the equation above yields
+$$ m_\ast = M_\odot - 2.5 \log_{10} \left( \frac{L_\ast}{L_\odot} \right) + 5 \log_{10}(d) -5 ,$$
+which equals
+$$ m_\ast = -0.2 - 2.5 \log_{10} \left( \frac{L_\ast}{L_\odot d^2} \right) .$$
+
+The UrsaLumi input involves a threshold of apparent magnitude $m_<$ below which an apparent magnitude must be to be included (remember that lower magnitudes somewhat unintuitively denote brighter stars).
+Because computers are awfully slow at calculating logarithms, this condition can be transformed:
+
+$$-0.2 - 2.5 \log_{10} \left( \frac{L_\ast}{L_\odot d^2} \right) < m_<$$
+
+$$ \Leftrightarrow $$
+
+$$ \frac{m_< - 0.2}{2.5} < \log_{10} \left( \frac{L_\ast}{L_\odot d^2} \right) $$
+
+$$ \Leftrightarrow $$
+
+$$ \frac{L_\ast}{L_\odot} > d^2 \exp \frac{m_< - 0.2}{2.5}$$
+
+This defines an easy to calculate luminous intensity threshold below which generated stars can be discarded.
+
+To find the luminous intensity of a star, the [PARSEC data for stellar evolution trajectories](https://people.sissa.it/~sbressan/CAF09_V1.2S_M36_LT/) is used, which can be accessed via the [parsec_access](https://crates.io/crates/parsec_access) Rust crate.
+
+Note that this makes a simplifiying assumption about the metallicity conversion from one unit to another explained [here](https://docs.rs/parsec_access/1.0.0/parsec_access/getters/fn.get_metallicities_in_fe_dex.html).
+
+PARSEC further provides the bolometric luminosity (the total radiative power over all wavelength) in units of the solar bolometric luminosity. Here we assume that the luminous intensity of a star scales like the bolometric luminosity. Thus the numeric value provided by PARSEC can directly be used as $\frac{L}{L_\odot}$ in the equation above.
+
 ### Algorithm
 - For each requested population calculate the expected number of stars within a chunk.
-- TODO: Calculate the minimal luminous intensity needed to reach the magnitude threshold.
+- Calculate the minimal luminous intensity needed to reach the magnitude threshold at this distance.
 - Sample the actual number of stars from a Poisson distribution.
 - Generate the stars and assign
   - an initial mass, sampled from the IMF.
   - a metallicity sampled from a Gaussian distribution.
   - an age, depending on the population either uniformly distributed in the range, or at the time of a star formation burst.
-- TODO: Calculate and assign the current mean luminous intensity.
+- Calculate and assign the current mean luminous intensity.
 - If the star is below the luminous intensity threshold, discard it.
 - Otherwise, assign
   - a 3D position sampled from a uniform distribution inside the chunk.
@@ -257,7 +307,8 @@ Note that in the thin disc, a radial metallcity dispersion of $-0.07$ dex/kpc is
   - the population it belongs to.
 
 
-[Robin2003]: https://github.com/TheComamba/UrsaLumi/blob/dev/documenting-physics/Documentation/Literature/Robin2003.pdf
-[Robin2010]: https://github.com/TheComamba/UrsaLumi/blob/dev/documenting-physics/Documentation/Literature/Robin2010.pdf
+[Luciuk2019]: https://github.com/TheComamba/UrsaLumi/blob/main/Documentation/Literature/Luciuk2019.pdf 
+[Robin2003]: https://github.com/TheComamba/UrsaLumi/blob/main/Documentation/Literature/Robin2003.pdf
+[Robin2010]: https://github.com/TheComamba/UrsaLumi/blob/main/Documentation/Literature/Robin2010.pdf
 
 [branch-prediction]: https://www.educative.io/answers/what-is-branch-prediction
