@@ -20,7 +20,7 @@ The generation parameters are stored together with the output.
 ## Chunking the Galaxy
 
 For the initial generation of stars the local environment of the observer is separated in chunks. Each chunk is a cube with edges that span $S_C = 15 \text{ pc}$. $S_C$ is called the "chunksize". A chunk is therefore characerised by the three ordinates of one of its corners. The first chunk contains the observer at its center. Its corner is therefore at the position
-$$C_0 = P_{\text{observer}} - \frac{1}{2}(S_C,S_C,S_C) \,.$$
+$$C_0 = P_{\text{observer}} - \frac{1}{2}(S_C,S_C,S_C) .$$
 
 > The sun is at a distance of `8.2 kpc` from the center of the milky way. Generating stars up to that distance results in
 > $$\frac{4}{3} \pi \frac{{8200}^3}{{15}^3} \approx 7\cdot10^8$$
@@ -78,7 +78,7 @@ Section 2.1.1. of [Robin2003][Robin2003] lists the total masses of the different
 ### Density Laws
 
 Given a mass density $\rho_m$, and assuming that it is basically constant within a chunk, we can find the expected total mass inside that chunk as
-$$\langle m_{tot} \rangle = \rho_m(C) S_C^3\,,$$
+$$\langle m_{tot} \rangle = \rho_m(C) S_C^3,$$
 where
 - $C$ are the corner coordinates of the chunk.
 - $S_C$ is the chunksize.
@@ -88,7 +88,7 @@ According to Table 2 of [Robin2010][Robin2010], the mass densities for the diffe
 #### Young Thin Disc Stars (age $\leq 0.15$ Gyr)
 
 Given the radial distance from the galactic center $R^2 = x^2+y^2$, the density at a position is modelled as
-$$\rho_m(R,z) = \frac{\rho_0}{d_0 k_\text{flare}}\left[\exp\left(-\frac{a^2}{h_+^2}\right) - \exp\left(-\frac{a^2}{h_-^2}\right)\right]\,,$$
+$$\rho_m(R,z) = \frac{\rho_0}{d_0 k_\text{flare}}\left[\exp\left(-\frac{a^2}{h_+^2}\right) - \exp\left(-\frac{a^2}{h_-^2}\right)\right] ,$$
 where
 - $d_0$ is a normalization factor to have a density of 1 at the solar position.
 - $k_\text{flare} = 1 + (R-R_\text{flare})g_\text{flare}H(R-R_\text{flare})$ accounts for the increase of the thickness of the disc with galactocentric distance.
@@ -104,7 +104,7 @@ where
 
 #### Older Thin Disc Stars (age $> 0.15$ Gyr)
 
-$$\rho_m(R,z) = \frac{\rho_0}{d_0 k_\text{flare}}\left[\exp\left(-\sqrt{0.25 + \frac{a^2}{h_+^2}}\right) - \exp\left[-\sqrt{0.25 + \frac{a^2}{h_-^2}}\right)\right]\,,$$
+$$\rho_m(R,z) = \frac{\rho_0}{d_0 k_\text{flare}}\left[\exp\left(-\sqrt{0.25 + \frac{a^2}{h_+^2}}\right) - \exp\left[-\sqrt{0.25 + \frac{a^2}{h_-^2}}\right)\right] ,$$
 where
 - $h_+ = 2530$ pc is a radial decay factor dominating at larger distances.
 - $h_- = 1320$ pc is another radial decay factor dominating at smaller distances.
@@ -112,7 +112,7 @@ where
 
 #### Inner Thick Disc Stars ($|z| \leq x_l$)
 
-$$\rho_m(R,z) = \frac{\rho_0}{d_0 k_\text{flare}} \exp \left( - \frac{R-R_\odot}{h_R} \right) \left( 1 - \frac{z^2}{h_z x_l (2 + x_l / h_z)}\right) \,,$$
+$$\rho_m(R,z) = \frac{\rho_0}{d_0 k_\text{flare}} \exp \left( - \frac{R-R_\odot}{h_R} \right) \left( 1 - \frac{z^2}{h_z x_l (2 + x_l / h_z)}\right)  ,$$
 where
 - $x_l = 72$ pc is a height threshold.
 - $R_\odot = 8.2$ kpc is the disctance of the sun from the galactic center.
@@ -124,14 +124,14 @@ where
 
 #### Outer Thick Disc Stars ($|z| > x_l$)
 
-$$\rho_m(R,z) = \frac{\rho_0}{d_0 k_\text{flare}}\exp \left( - \frac{R-R_\odot}{h_R} - \frac{|z|}{h_z}\right) \frac{\exp \left( \frac{x_l}{h_z} \right)}{1 + \frac{x_l}{2h_z} } \,,$$
+$$\rho_m(R,z) = \frac{\rho_0}{d_0 k_\text{flare}}\exp \left( - \frac{R-R_\odot}{h_R} - \frac{|z|}{h_z}\right) \frac{\exp \left( \frac{x_l}{h_z} \right)}{1 + \frac{x_l}{2h_z} }  ,$$
 where all parameters are the same as before.
 
 Note that [Robin2010][Robin2010] lists this formula without the factors $d_0$ and $k_\text{flare}$, but comparing to [Robin2003][Robin2003], I think they may have been forgotten here.
 
 #### Inner Spheroid ($a \leq a_c$)
 
-$$\rho_m(R,z) = \frac{\rho_0}{d_0} \left( \frac{a_c}{R_\odot}\right)^{-2.44} \,,$$
+$$\rho_m(R,z) = \frac{\rho_0}{d_0} \left( \frac{a_c}{R_\odot}\right)^{-2.44}  ,$$
 where
 - $a_c = 500$ pc describes the boundary of a spheroid.
 - the other parameters are the same as before.
@@ -140,14 +140,14 @@ Note that the density for the population in this regime is constant.
 
 #### Outer Spheroid ($a > a_c$)
 
-$$\rho_m(R,z) = \frac{\rho_0}{d_0} \left( \frac{a}{R_\odot}\right)^{-2.44} \,,$$
+$$\rho_m(R,z) = \frac{\rho_0}{d_0} \left( \frac{a}{R_\odot}\right)^{-2.44}  ,$$
 where all parameters are the same as before.
 
 Note that [Robin2010][Robin2010] lists this formula without the normalisation factor $d_0$, but comparing to [Robin2003][Robin2003] and considering that the density should probably be continuous at $a = a_c$, it was probably forgotten.
 
 #### Inner Bulge ($\sqrt{x_B^2+y_B^2} \leq R_c$)
 
-$$\rho_N(x_B,y_B,z_B) = N \exp\left( - 0.5 r_s^2 \right) \,,$$
+$$\rho_N(x_B,y_B,z_B) = N \exp\left( - 0.5 r_s^2 \right)  ,$$
 where
 $$r_s^2 = \sqrt{\left[\left(\frac{x_B}{x_0}\right)^2 + \left(\frac{y_B}{y_0}\right)^2\right]^2 + \left(\frac{z_B}{z_0}\right)^4}$$
 and (compare [Robin2003][Robin2003], Table 5)
@@ -165,7 +165,7 @@ Note that contrary to the previous density laws, this is a number density.
 
 #### Outer Bulge ($\sqrt{x_B^2+y_B^2} > R_c$)
 
-$$\rho_N(x_B,y_B,z_B) = N \exp\left[ - 0.5 r_s^2 -0.2 \left( \sqrt{x_B^2 + y_B^2} - R_c\right)^2\right] \,,$$
+$$\rho_N(x_B,y_B,z_B) = N \exp\left[ - 0.5 r_s^2 -0.2 \left( \sqrt{x_B^2 + y_B^2} - R_c\right)^2\right]  ,$$
 where all parameters are the same as before.
 
 Note that the formula in [Robin2010][Robin2010] contains a $e^{-5}$ inside the exponent. I am confident that this is a typo.
@@ -183,11 +183,12 @@ Table 4 of [Robin2010][Robin2010] lists it as follows:
 
 #### Thin Disc
 
-$$IMF(m) = \left\lbrace \begin{matrix} 
-A_1 m ^{-1.1} &,& m < 0.6 M_\odot \\
-A_2 m^{-1.6} &,& 0.6 M_\odot < m < M_\odot \\
-A_3 m^{-3.0} &,& m > M_\odot
-\end{matrix}\right. \,,$$
+$ IMF(m) = A_1 m ^{-1.1} $, for  $ m < 0.6 M_\odot $,
+
+$ IMF(m) = A_2 m^{-1.6} $, for $ 0.6 M_\odot < m < M_\odot $,
+
+$ IMF(m) = A_3 m^{-3.0} $, for $ m > M_\odot $,
+
 where
 - $A_1 = TODO$
 - $A_2 = TODO$
@@ -197,19 +198,19 @@ are chosen such that the function is continuous and normalised.
 
 #### Thick Disc
 
-$$IMF(m) = A m^{-0.5} \,,$$ 
+$$IMF(m) = A m^{-0.5}  ,$$
 where
 - $A = TODO$ is a normalisation factor.
 
 #### Spheroid
 
-$$IMF(m) = A m^{-0.5} \,,$$ 
+$$IMF(m) = A m^{-0.5}  ,$$ 
 where
 - $A = TODO$ is a normalisation factor.
 
 #### Bulge
 
-$$IMF(m) = A m^{-2.35} \,,$$ 
+$$IMF(m) = A m^{-2.35}  ,$$ 
 where
 - this distribution begins at $m > 0.7 M_\odot$
 - $A = TODO$ is a normalisation factor.
@@ -218,15 +219,16 @@ where
 
 The metallicity is defined as
 
-$$\langle[\text{Fe/H}]\rangle = \log_{10}\left(\frac{N_\text{Fe}}{N_\text{H}}\right)_\ast - \log_{10}\left(\frac{N_\text{Fe}}{N_\text{H}}\right)_\odot \,,$$
-  the logarithmic ratio of the number of iron and hydrogen atoms as compared to their ratio in the sun. It is measured in dex.
+$$\langle[\text{Fe/H}]\rangle = \log_{10}\left(\frac{N_\text{Fe}}{N_\text{H}}\right)_\ast - \log_{10}\left(\frac{N_\text{Fe}}{N_\text{H}}\right)_\odot  ,$$
+
+the logarithmic ratio of the number of iron and hydrogen atoms as compared to their ratio in the sun. It is measured in dex.
 
 Table 5 of [Robin2010][Robin2010] lists the metallicities for the different populations as follows:
 
 |Population|Age [Gyr]| $\langle[\text{Fe/H}]\rangle$ [dex] |
 |---|---|---|
-| Thin disc | $0-0.15$ | $\phantom{-}0.01\pm0.010$ |
-|| $0.15-1$ | $\phantom{-}0.00\pm0.11$ |
+| Thin disc | $0-0.15$ | $0.01\pm0.010$ |
+|| $0.15-1$ | $0.00\pm0.11$ |
 || $1-2$ | $-0.02\pm0.12$ |
 || $2-3$ | $-0.03\pm0.125$ |
 || $3-5$ | $-0.05\pm0.135$ |
@@ -234,7 +236,7 @@ Table 5 of [Robin2010][Robin2010] lists the metallicities for the different popu
 || $7-10$ | $-0.12\pm0.18$ |
 | Thick disc | $11$ | $-0.50\pm0.30$ |
 | Spheroid | $14$ | $-1.5\pm0.50$ |
-| Bulge | $10$ | $\phantom{-}0.00\pm0.20$ |
+| Bulge | $10$ | $0.00\pm0.20$ |
 
 Note that in the thin disc, a radial metallcity dispersion of $-0.07$ dex/kpc is present.
 
