@@ -223,8 +223,7 @@ $$\langle[\text{Fe/H}]\rangle = \log_{10}\left(\frac{N_\text{Fe}}{N_\text{H}}\ri
 
 $$\langle[\text{Fe/H}]\rangle $$
 
-
-$$ = \log_{10}\left(\frac{N_\text{Fe}}{N_\text{H}}\right)_\ast - \log_{10}\left(\frac{N_\text{Fe}}{N_\text{H}}\right)_\odot ,$$
+$$ = \log_{10}\left(\frac{N_\text{Fe}}{N_\text{H}}\right)_\ast $$
 
 $$ - \log_{10}\left(\frac{N_\text{Fe}}{N_\text{H}}\right)_\odot ,$$
 
