@@ -286,7 +286,7 @@ $$ \frac{m_< - 0.2}{2.5} < \log_{10} \left( \frac{L_\ast}{L_\odot d^2} \right) $
 
 $$ \Leftrightarrow $$
 
-$$ \frac{L_\ast}{L_\odot} > d^2 \exp \frac{m_< - 0.2}{2.5}$$
+$$ \frac{L_\ast}{L_\odot} > d^2 10^ \frac{m_< - 0.2}{2.5}$$
 
 This defines an easy to calculate luminous intensity threshold below which generated stars can be discarded.
 
