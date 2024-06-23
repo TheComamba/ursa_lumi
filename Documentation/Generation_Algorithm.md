@@ -219,9 +219,10 @@ where
 
 The metallicity is defined as
 
-$$\langle[\text{Fe/H}]\rangle = \log_{10}\left(\frac{N_\text{Fe}}{N_\text{H}}\right)_\ast - R_\odot ,$$
+$$\langle[\text{Fe/H}]\rangle = \log_{10}\left(\frac{N_\text{Fe}}{N_\text{H}}\right) _ \ast - \log _ {10}\left(\frac{N_\text{Fe}}{N_\text{H}}\right)_\odot ,$$
 
-the logarithmic ratio of the number of iron and hydrogen atoms as compared to the analogous value $R_\odot$ for the sun. It is measured in dex.
+
+the logarithmic ratio of the number of iron and hydrogen atoms as compared to their ratio in the sun. It is measured in dex.
 
 Table 5 of [Robin2010][Robin2010] lists the metallicities for the different populations as follows:
 
