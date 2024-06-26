@@ -4,4 +4,6 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-simple-si-units = "1.1"
+serde = { version = "1.0", default-features = false, features = ["derive"] } # (De)Serialization
+serde_json = { version = "1.0", default-features = false, features = ["std"] }
+simple-si-units = { version = "1.1", default-features = false, features = ["serde"] }
