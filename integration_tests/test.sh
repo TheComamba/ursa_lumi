@@ -1,7 +1,5 @@
 #/bin/bash
 
-set -e
-
 # Go to git root
 cd $(git rev-parse --show-toplevel)
 
@@ -38,6 +36,8 @@ function expect_file {
     fi
 }
 
+echo "Running integration tests."
+
 testname="Running executable without arguments returns an error."
 $exe 2>/dev/null
 expect_failure "$testname"
@@ -51,3 +51,6 @@ rm -rf ./integration_tests/example_output.json
 $exe --params ./integration_tests/example_params.json --out ./integration_tests/example_output.json >/dev/null
 expect_success "$testname"
 expect_file "./integration_tests/example_output.json" "$testname"
+
+echo "All integration tests passed."
+exit 0
