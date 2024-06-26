@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 /// Parameters for generating a star catalogue.
-/// 
+///
 /// Compare https://github.com/TheComamba/UrsaLumi/blob/main/Documentation/Generation_Algorithm.md#generation-parameters
 #[derive(Debug, Serialize, Deserialize)]
 pub(crate) struct GenerationParameters {
