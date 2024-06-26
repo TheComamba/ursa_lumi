@@ -10,7 +10,7 @@ The following parameters need to be specified when starting a simulation:
 - `observer_position`: This describes the `x`, `y` and `z` coordinate of an observer relative to the galactic center.
 
     This value cannot be changed in follow-up generations.
-- `apparent_magnitude_threshold`: Together with the `observer_position` this restricts the minimal brightness a star must have to be included in the output.
+- `apparent_magnitude_limit`: Together with the `observer_position` this restricts the minimal brightness a star must have to be included in the output.
 
     Currently this value can also not be changed in follow-up generations, so choose it wisely.
 - `max_distance`: The maximal distance up to which new stars are generated in this generation run.
@@ -275,7 +275,7 @@ which equals
 
 $$ m _ \ast = -0.2 - 2.5 \log _ {10} \left( \frac{L _ \ast}{L _ \odot d^2} \right) .$$
 
-The UrsaLumi input involves a threshold of apparent magnitude $m_<$ below which an apparent magnitude must be to be included (remember that lower magnitudes somewhat unintuitively denote brighter stars).
+The UrsaLumi input involves a limit of apparent magnitude $m_<$ below which an apparent magnitude must be to be included (remember that lower magnitudes somewhat unintuitively denote brighter stars).
 Because computers are awfully slow at calculating logarithms, this condition can be transformed:
 
 $$-0.2 - 2.5 \log_{10} \left( \frac{L_\ast}{L_\odot d^2} \right) < m_<$$
@@ -288,7 +288,7 @@ $$ \Leftrightarrow $$
 
 $$ \frac{L_\ast}{L_\odot} > d^2 10^ \frac{m_< - 0.2}{2.5}$$
 
-This defines an easy to calculate luminous intensity threshold below which generated stars can be discarded.
+This defines an easy to calculate luminous intensity limit below which generated stars can be discarded.
 
 To find the luminous intensity of a star, the [PARSEC data for stellar evolution trajectories](https://people.sissa.it/~sbressan/CAF09_V1.2S_M36_LT/) is used, which can be accessed via the [parsec_access](https://crates.io/crates/parsec_access) Rust crate.
 
@@ -298,14 +298,14 @@ PARSEC further provides the bolometric luminosity (the total radiative power ove
 
 ### Algorithm
 - For each requested population calculate the expected number of stars within a chunk.
-- Calculate the minimal luminous intensity needed to reach the magnitude threshold at this distance.
+- Calculate the minimal luminous intensity needed to reach the magnitude limit at this distance.
 - Sample the actual number of stars from a Poisson distribution.
 - Generate the stars and assign
   - an initial mass, sampled from the IMF.
   - a metallicity sampled from a Gaussian distribution.
   - an age, depending on the population either uniformly distributed in the range, or at the time of a star formation burst.
 - Calculate and assign the current mean luminous intensity.
-- If the star is below the luminous intensity threshold, discard it.
+- If the star is below the luminous intensity limit, discard it.
 - Otherwise, assign
   - a 3D position sampled from a uniform distribution inside the chunk.
   - the current mass.
