@@ -104,6 +104,7 @@ fn number_of_chunks_along_axis(generation_parameters: &GenerationParameters) -> 
 #[cfg(test)]
 mod test {
     use super::*;
+    use serial_test::serial;
 
     #[test]
     fn test_number_of_chunks_along_axis() {
@@ -203,6 +204,7 @@ mod test {
 
     #[test]
     #[ignore]
+    #[serial]
     fn chunc_generation_is_fast() {
         const TO_MILKY_WAY_CENTER: f64 = 8200.;
         const MAX_DISTANCE: f64 = TO_MILKY_WAY_CENTER / 3.;
@@ -217,5 +219,23 @@ mod test {
         let duration = start.elapsed();
         println!("Generating {} chunks took {:?}", chunks.len(), duration);
         assert!(duration.as_secs_f64() < 1.);
+    }
+
+    #[test]
+    #[ignore]
+    #[serial]
+    fn allocating_huge_amounts_of_chunks_is_possible() {
+        const TO_MILKY_WAY_CENTER: f64 = 8200.;
+        const MAX_DISTANCE: f64 = TO_MILKY_WAY_CENTER * 2.;
+        let params = GenerationParameters {
+            observer_position_in_pc: (10., 20., 30.),
+            apparent_magnitude_limit: 0.,
+            max_distance_in_pc: MAX_DISTANCE,
+            chunksize_in_pc: 10.,
+        };
+        let start = std::time::Instant::now();
+        let chunks = GalacticChunk::generate_chunks(&params);
+        let duration = start.elapsed();
+        println!("Generating {} chunks took {:?}", chunks.len(), duration);
     }
 }
