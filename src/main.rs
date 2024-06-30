@@ -9,6 +9,8 @@ mod galactic_chunk;
 mod generation_parameters;
 mod stellar_system;
 
+pub(crate) const MAX_ITEMS_IN_VECTOR: usize = 2147483648; //2^31
+
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args = Arguments::parse();
     let params = File::open(&args.params)?;
@@ -26,4 +28,12 @@ struct Arguments {
     params: PathBuf,
     #[arg(short, long, value_name = "FILE")]
     out: PathBuf,
+}
+
+#[cfg(test)]
+mod test {
+    #[test]
+    fn allocating_a_vector_with_max_items_does_not_panic() {
+        let _ = Vec::<usize>::with_capacity(super::MAX_ITEMS_IN_VECTOR);
+    }
 }
