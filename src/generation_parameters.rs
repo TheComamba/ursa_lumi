@@ -5,8 +5,8 @@ use serde::{Deserialize, Serialize};
 /// Compare https://github.com/TheComamba/UrsaLumi/blob/main/Documentation/Generation_Algorithm.md#generation-parameters
 #[derive(Debug, Serialize, Deserialize)]
 pub(crate) struct GenerationParameters {
-    observer_position_in_pc: (f64, f64, f64),
-    apparent_magnitude_limit: f64,
-    max_distance_in_pc: f64,
-    chunksize_in_pc: f64,
+    pub(crate) observer_position_in_pc: (f64, f64, f64),
+    pub(crate) apparent_magnitude_limit: f64,
+    pub(crate) max_distance_in_pc: f64,
+    pub(crate) chunksize_in_pc: f64,
 }

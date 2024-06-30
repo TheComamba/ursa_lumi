@@ -30,7 +30,7 @@ Due to [branch prediction][branch-prediction], later steps will be faster on the
 
 - Calculate `N = floor(max_distance / CHUNKSIZE)`, the number of chunks between the origin and the maximum generation distance along an axis.
     > To speed up the calculation, allocate the memory for a vector with $\frac{1}{8}\frac{4}{3} \pi N^3$ three-tuples of integers once `N` is known.
-- Fill the first quadrant: For $x\geq0$, $y\geq0$ and $z\geq0$ where
+- Fill the first octant: For $x\geq0$, $y\geq0$ and $z\geq0$ where
     $$x\leq N,$$
     $$y^2 \leq N^2 - x^2,$$
     $$z^2 \leq N^2 - x^2 - y^2 $$
@@ -39,7 +39,7 @@ Due to [branch prediction][branch-prediction], later steps will be faster on the
 - Create a new vector for all coordinates.
     > Once again, its size is known beforehand and it can be allocated.
 - Add the zero-chunk containing the `observer_position` at its center.
-- Loop through all entries in the quadrant and all sign combinations $\pm_{x,y,z}$ (in that order, working our way outwards).
+- Loop through all entries in the octant and all sign combinations $\pm_{x,y,z}$ (in that order, working our way outwards).
   - We need to avoid duplicates coming from the fact that `+0 == -0`. Therefore,
     if `x == -0`, `y == -0` or `z == -0`, continue.`
   - Add a chunk at $C_0 + (\pm_x x,\pm_y y,\pm_z z) S_C$ to the vector, where $C_0$ is the position of the observer chunk.
