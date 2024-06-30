@@ -1,5 +1,3 @@
-use std::f64::consts::PI;
-
 use crate::generation_parameters::GenerationParameters;
 
 /// A chunk of the galaxy.
@@ -37,7 +35,6 @@ impl GalacticChunk {
         let (x0, y0, z0) = origin_chunk.corner;
 
         let mut chunks: Vec<Self> = Vec::with_capacity(1 + chunk_numbers_first_octant.len() * 8);
-        chunks.push(origin_chunk);
         let size = generation_parameters.chunksize_in_pc;
         for (x, y, z) in chunk_numbers_first_octant.iter() {
             for x_sign in [-1, 1].iter() {
@@ -81,8 +78,7 @@ impl GalacticChunk {
 }
 
 fn chunk_numbers_in_first_octant(n: usize) -> Vec<(usize, usize, usize)> {
-    let chunks_per_octant = number_of_chunks_per_octant(n);
-    let mut chunks_first_octant = Vec::with_capacity(chunks_per_octant);
+    let mut chunks_first_octant = Vec::new();
     for x in 0..n {
         for y in 0..n {
             if y * y + x * x > n * n {
@@ -100,16 +96,9 @@ fn chunk_numbers_in_first_octant(n: usize) -> Vec<(usize, usize, usize)> {
     chunks_first_octant
 }
 
-fn number_of_chunks_per_octant(n: usize) -> usize {
-    let chunks_per_octant = (4. / 3. * PI) * (n.pow(3) as f64) / 8.;
-    let chunks_per_octant = chunks_per_octant.ceil() as usize;
-    chunks_per_octant
-}
-
 fn number_of_chunks_along_axis(generation_parameters: &GenerationParameters) -> usize {
-    let N = (generation_parameters.max_distance_in_pc / generation_parameters.chunksize_in_pc)
-        .floor() as usize;
-    N
+    (generation_parameters.max_distance_in_pc / generation_parameters.chunksize_in_pc).ceil()
+        as usize
 }
 
 #[cfg(test)]
@@ -121,19 +110,18 @@ mod test {
         let params = GenerationParameters {
             observer_position_in_pc: (0., 0., 0.),
             apparent_magnitude_limit: 0.,
-            max_distance_in_pc: 101.,
+            max_distance_in_pc: 5.,
             chunksize_in_pc: 10.,
         };
-        assert_eq!(number_of_chunks_along_axis(&params), 10);
-    }
+        assert_eq!(number_of_chunks_along_axis(&params), 1);
 
-    #[test]
-    fn test_number_of_chunks_per_octant() {
-        assert_eq!(number_of_chunks_per_octant(1), 1);
-        assert_eq!(number_of_chunks_per_octant(2), 5);
-        assert_eq!(number_of_chunks_per_octant(3), 15);
-        assert_eq!(number_of_chunks_per_octant(4), 34);
-        assert_eq!(number_of_chunks_per_octant(5), 66);
+        let params = GenerationParameters {
+            observer_position_in_pc: (0., 0., 0.),
+            apparent_magnitude_limit: 0.,
+            max_distance_in_pc: 55.,
+            chunksize_in_pc: 10.,
+        };
+        assert_eq!(number_of_chunks_along_axis(&params), 6);
     }
 
     #[test]
@@ -152,14 +140,6 @@ mod test {
                 (1, 1, 1)
             ]
         );
-    }
-
-    #[test]
-    fn number_of_chunks_per_octant_agrees_with_size_of_resulting_octant() {
-        for n in 9..10 {
-            let chunks = chunk_numbers_in_first_octant(n);
-            assert_eq!(chunks.len(), number_of_chunks_per_octant(n));
-        }
     }
 
     #[test]
