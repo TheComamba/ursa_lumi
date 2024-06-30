@@ -7,19 +7,22 @@ At the moment, it only supports generating galactic objects.
 ## Generation Parameters
 
 The following parameters need to be specified when starting a simulation:
-- `observer_position`: This describes the `x`, `y` and `z` coordinate of an observer relative to the galactic center.
+- `observer_position_in_pc`: This describes the `x`, `y` and `z` coordinate of an observer relative to the galactic center.
 
     This value cannot be changed in follow-up generations.
 - `apparent_magnitude_limit`: Together with the `observer_position` this restricts the minimal brightness a star must have to be included in the output.
 
     Currently this value can also not be changed in follow-up generations, so choose it wisely.
-- `max_distance`: The maximal distance up to which new stars are generated in this generation run.
+- `max_distance_in_pc`: The maximal distance up to which new stars are generated in this generation run.
+- `chunksize_in_pc`: The length of the edges of chunks in which calculations are processed.
+
+    This value cannot be changed in follow-up generations.
 
 The generation parameters are stored together with the output.
 
 ## Chunking the Galaxy
 
-For the initial generation of stars the local environment of the observer is separated in chunks. Each chunk is a cube with edges that span $S_C = 15 \text{ pc}$. $S_C$ is called the "chunksize". A chunk is therefore characerised by the three ordinates of one of its corners. The first chunk contains the observer at its center. Its corner is therefore at the position
+For the initial generation of stars the local environment of the observer is separated in chunks. Each chunk is a cube with edges that span `chunksize_in_pc` as given by the Generation Parameters. It is denoted $S_C$ here. A chunk is characerised by the three ordinates of one of its corners. The first chunk contains the observer at its center. Its corner is therefore at the position
 $$C_0 = P_{\text{observer}} - \frac{1}{2}(S_C,S_C,S_C) .$$
 
 > The sun is at a distance of `8.2 kpc` from the center of the milky way. Generating stars up to that distance results in
