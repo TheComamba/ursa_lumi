@@ -205,7 +205,7 @@ mod test {
     #[ignore]
     fn chunc_generation_is_fast() {
         const TO_MILKY_WAY_CENTER: f64 = 8200.;
-        const MAX_DISTANCE: f64 = TO_MILKY_WAY_CENTER / 10.;
+        const MAX_DISTANCE: f64 = TO_MILKY_WAY_CENTER / 3.;
         let params = GenerationParameters {
             observer_position_in_pc: (10., 20., 30.),
             apparent_magnitude_limit: 0.,
