@@ -5,6 +5,7 @@ use generation_parameters::GenerationParameters;
 use std::{fs::File, path::PathBuf};
 use stellar_system::StellarSystem;
 
+mod galactic_chunk;
 mod generation_parameters;
 mod stellar_system;
 
