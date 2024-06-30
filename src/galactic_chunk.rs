@@ -1,4 +1,5 @@
 use crate::generation_parameters::GenerationParameters;
+use crate::MAX_ITEMS_IN_VECTOR;
 
 /// A chunk of the galaxy.
 pub(crate) struct GalacticChunk {
@@ -12,7 +13,7 @@ impl GalacticChunk {
     /// Separates the galaxy into chunks, up to the maximal generation distance.
     ///
     /// Compare https://github.com/TheComamba/UrsaLumi/blob/main/Documentation/Generation_Algorithm.md#chunking-the-galaxy
-    pub(crate) fn generate_chunks(generation_parameters: &GenerationParameters) -> Vec<Self> {
+    pub(crate) fn generate_chunks(generation_parameters: &GenerationParameters) -> Vec<Vec<Self>> {
         let n = number_of_chunks_along_axis(generation_parameters);
         let chunk_numbers_first_octant = chunk_numbers_in_first_octant(n);
         Self::create_chunks_in_sphere(generation_parameters, chunk_numbers_first_octant)
@@ -27,7 +28,7 @@ impl GalacticChunk {
         Self { corner }
     }
 
-    fn create_chunks_in_sphere(
+    fn create_limited_number_of_chunks_in_sphere(
         generation_parameters: &GenerationParameters,
         chunk_numbers_first_octant: Vec<(usize, usize, usize)>,
     ) -> Vec<Self> {
@@ -77,16 +78,27 @@ impl GalacticChunk {
     }
 }
 
-fn chunk_numbers_in_first_octant(n: usize) -> Vec<(usize, usize, usize)> {
+fn chunk_numbers_in_first_octant(n: usize) -> Vec<Vec<(usize, usize, usize)>> {}
+
+fn some_chunk_numbers_in_first_octant(
+    r_min: usize,
+    r_max: usize,
+    inner_shell: &Vec<(usize, usize, usize)>,
+) -> Vec<(usize, usize, usize)> {
     let mut chunks_first_octant = Vec::new();
-    for x in 0..n {
-        for y in 0..n {
-            if y * y + x * x > n * n {
+    for x in 0..r_max {
+        for y in 0..r_max {
+            if y * y + x * x > r_max * r_max {
                 continue;
             }
-            for z in 0..n {
-                if x * x + y * y + z * z > n * n {
+            for z in 0..r_max {
+                if x * x + y * y + z * z > r_max * r_max {
                     continue;
+                }
+                if x * x + y * y + z * z <= r_min * r_min {
+                    if inner_shell.contains(&(x, y, z)) {
+                        continue;
+                    }
                 }
                 chunks_first_octant.push((x, y, z));
             }
@@ -99,6 +111,11 @@ fn chunk_numbers_in_first_octant(n: usize) -> Vec<(usize, usize, usize)> {
 fn number_of_chunks_along_axis(generation_parameters: &GenerationParameters) -> usize {
     (generation_parameters.max_distance_in_pc / generation_parameters.chunksize_in_pc).ceil()
         as usize
+}
+
+#[cfg(test)]
+fn total_number<T>(v: &Vec<Vec<T>>) -> usize {
+    v.iter().map(|v| v.len()).sum()
 }
 
 #[cfg(test)]
@@ -127,10 +144,10 @@ mod test {
 
     #[test]
     fn test_chunk_numbers_in_first_octant() {
-        assert_eq!(chunk_numbers_in_first_octant(1), vec![(0, 0, 0)]);
+        assert_eq!(chunk_numbers_in_first_octant(1), vec![vec![(0, 0, 0)]]);
         assert_eq!(
             chunk_numbers_in_first_octant(2),
-            vec![
+            vec![vec![
                 (0, 0, 0),
                 (0, 0, 1),
                 (0, 1, 0),
@@ -139,8 +156,21 @@ mod test {
                 (1, 0, 1),
                 (1, 1, 0),
                 (1, 1, 1)
-            ]
+            ]]
         );
+    }
+
+    #[test]
+    fn flattened_chunk_numbers_are_the_same_even_if_generated_in_batches() {
+        const R_MAX: usize = 100;
+        let all_chunk_numbers = some_chunk_numbers_in_first_octant(0, R_MAX, &vec![]);
+        for r_min in 1..(R_MAX - 1) {
+            let inner_shell = some_chunk_numbers_in_first_octant(0, r_min, &vec![]);
+            let outer_shell = some_chunk_numbers_in_first_octant(r_min, R_MAX, &inner_shell);
+            let mut combined = inner_shell.clone();
+            combined.extend(outer_shell);
+            assert_eq!(all_chunk_numbers, combined);
+        }
     }
 
     #[test]
@@ -237,5 +267,6 @@ mod test {
         let chunks = GalacticChunk::generate_chunks(&params);
         let duration = start.elapsed();
         println!("Generating {} chunks took {:?}", chunks.len(), duration);
+        assert!(total_number(chunks) > MAX_ITEMS_IN_VECTOR)
     }
 }
