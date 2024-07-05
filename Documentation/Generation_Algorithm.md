@@ -22,8 +22,6 @@ The generation parameters are stored together with the output.
 
 ## Chunking the Galaxy
 
-TODO: Bring this algorithm up to date.
-
 For the initial generation of stars the local environment of the observer is separated in chunks. Each chunk is a cube with edges that span `chunksize_in_pc` as given by the Generation Parameters. It is denoted $S_C$ here. A chunk is characerised by the three ordinates of one of its corners. The first chunk contains the observer at its center. Its corner is therefore at the position
 $$C_0 = P_{\text{observer}} - \frac{1}{2}(S_C,S_C,S_C) .$$
 
