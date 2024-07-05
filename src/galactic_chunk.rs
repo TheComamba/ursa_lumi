@@ -34,7 +34,7 @@ impl GalacticChunk {
         let origin_chunk = Self::origin_chunk(generation_parameters);
         let (x0, y0, z0) = origin_chunk.corner;
 
-        let mut chunks: Vec<Self> = Vec::with_capacity(1 + chunk_numbers_first_octant.len() * 8);
+        let mut chunks: Vec<Self> = Vec::with_capacity(chunk_numbers_first_octant.len() * 8);
         let size = generation_parameters.chunksize_in_pc;
         for (x, y, z) in chunk_numbers_first_octant.iter() {
             for x_sign in [-1, 1].iter() {
@@ -217,25 +217,12 @@ mod test {
         let start = std::time::Instant::now();
         let chunks = GalacticChunk::generate_chunks(&params);
         let duration = start.elapsed();
-        println!("Generating {} chunks took {:?}", chunks.len(), duration);
+        println!(
+            "Generating {} chunks took {:?}, or {:?} per chunk",
+            chunks.len(),
+            duration,
+            duration / chunks.len() as u32
+        );
         assert!(duration.as_secs_f64() < 1.);
-    }
-
-    #[test]
-    #[ignore]
-    #[serial]
-    fn allocating_huge_amounts_of_chunks_is_possible() {
-        const TO_MILKY_WAY_CENTER: f64 = 8200.;
-        const MAX_DISTANCE: f64 = TO_MILKY_WAY_CENTER * 2.;
-        let params = GenerationParameters {
-            observer_position_in_pc: (10., 20., 30.),
-            apparent_magnitude_limit: 0.,
-            max_distance_in_pc: MAX_DISTANCE,
-            chunksize_in_pc: 10.,
-        };
-        let start = std::time::Instant::now();
-        let chunks = GalacticChunk::generate_chunks(&params);
-        let duration = start.elapsed();
-        println!("Generating {} chunks took {:?}", chunks.len(), duration);
     }
 }
