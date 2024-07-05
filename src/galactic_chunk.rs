@@ -1,6 +1,3 @@
-use std::cmp::min;
-use std::f64::consts::PI;
-
 use crate::generation_parameters::GenerationParameters;
 use crate::MAX_ITEMS_IN_VECTOR;
 
@@ -81,26 +78,7 @@ impl GalacticChunk {
     }
 }
 
-fn chunk_numbers_in_first_octant(target_radius: usize) -> Vec<Vec<(usize, usize, usize)>> {
-    const EMPTY: &'static [(usize, usize, usize)] = &[];
-    let total_chunks = approximate_number_of_chunks_in_sphere(target_radius);
-    let mut min_radius = 0;
-    let mut max_radius = min(target_radius, radius_of_sphere(MAX_ITEMS_IN_VECTOR));
-    let mut chunks = Vec::new();
-    while min_radius < target_radius {
-        let previous_chunks = if let Some(last) = chunks.last() {
-            last
-        } else {
-            &Vec::new()
-        };
-        let new_chunks = some_chunk_numbers_in_first_octant(min_radius, max_radius, previous_chunks);
-        chunks.push(new_chunks);
-        let remaining_chunks = total_chunks - total_number(&chunks);
-        min_radius = max_radius;
-        max_radius = min(target_radius, ));
-    }
-    chunks
-}
+fn chunk_numbers_in_first_octant(n: usize) -> Vec<Vec<(usize, usize, usize)>> {}
 
 fn some_chunk_numbers_in_first_octant(
     r_min: usize,
@@ -135,14 +113,7 @@ fn number_of_chunks_along_axis(generation_parameters: &GenerationParameters) -> 
         as usize
 }
 
-fn approximate_number_of_chunks_in_sphere(n: usize) -> usize {
-    (4. / 3. * PI * n.pow(3) as f64 ).round() as usize
-}
-
-fn radius_of_sphere(chunks_inside: usize) -> usize {
-    ((3. / 4. * chunks_inside as f64 / PI).powf(1. / 3.)).ceil() as usize
-}
-
+#[cfg(test)]
 fn total_number<T>(v: &Vec<Vec<T>>) -> usize {
     v.iter().map(|v| v.len()).sum()
 }
@@ -258,15 +229,6 @@ mod test {
                 let distance2 = dx2 * dx2 + dy2 * dy2 + dz2 * dz2;
                 assert!(distance1 <= distance2 + ACCURACY);
             }
-        }
-    }
-
-    #[test]
-    fn radius_roundtrips() {
-        for r1 in 1..100 {
-            let chunks_inside = approximate_number_of_chunks_in_sphere(r1);
-            let r2 = radius_of_sphere(chunks_inside);
-            assert!((r1 as i32-r2 as i32).abs() < 2, "r1: {}, r2: {}", r1, r2);
         }
     }
 
