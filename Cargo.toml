@@ -8,3 +8,6 @@ clap = { version = "4.5.7", features = ["derive"] }
 serde = { version = "1.0", default-features = false, features = ["derive"] } # (De)Serialization
 serde_json = { version = "1.0", default-features = false, features = ["std"] }
 simple-si-units = { version = "1.1", default-features = false, features = ["serde"] }
+
+[dev-dependencies]
+serial_test = "3.0.0"
