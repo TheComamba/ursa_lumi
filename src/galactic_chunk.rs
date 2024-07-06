@@ -1,6 +1,7 @@
 use crate::generation_parameters::GenerationParameters;
 
 /// A chunk of the galaxy.
+#[derive(Debug, Clone)]
 pub(crate) struct GalacticChunk {
     /// The defining corner of the chunk, in units of parsec.
     ///
@@ -67,8 +68,10 @@ impl GalacticChunk {
         }
         chunks
     }
+}
 
-    #[cfg(test)]
+#[cfg(test)]
+impl PartialEq for GalacticChunk {
     fn eq(&self, other: &Self) -> bool {
         const ACCURACY: f64 = 1e-2;
         let (x0, y0, z0) = self.corner;
@@ -79,13 +82,14 @@ impl GalacticChunk {
 
 fn chunk_numbers_in_first_octant(n: usize) -> Vec<(usize, usize, usize)> {
     let mut chunks_first_octant = Vec::new();
+    let radius_squared = (n - 1) * (n - 1);
     for x in 0..n {
         for y in 0..n {
-            if y * y + x * x > n * n {
+            if y * y + x * x > radius_squared {
                 continue;
             }
             for z in 0..n {
-                if x * x + y * y + z * z > n * n {
+                if x * x + y * y + z * z > radius_squared {
                     continue;
                 }
                 chunks_first_octant.push((x, y, z));
@@ -130,6 +134,10 @@ mod test {
         assert_eq!(chunk_numbers_in_first_octant(1), vec![(0, 0, 0)]);
         assert_eq!(
             chunk_numbers_in_first_octant(2),
+            vec![(0, 0, 0), (0, 0, 1), (0, 1, 0), (1, 0, 0)]
+        );
+        assert_eq!(
+            chunk_numbers_in_first_octant(3),
             vec![
                 (0, 0, 0),
                 (0, 0, 1),
@@ -138,7 +146,10 @@ mod test {
                 (0, 1, 1),
                 (1, 0, 1),
                 (1, 1, 0),
-                (1, 1, 1)
+                (1, 1, 1),
+                (0, 0, 2),
+                (0, 2, 0),
+                (2, 0, 0)
             ]
         );
     }
@@ -175,6 +186,135 @@ mod test {
                     assert!(!chunk.eq(other_chunk));
                 }
             }
+        }
+    }
+
+    #[test]
+    fn chunks_contain_all_expected() {
+        let params = GenerationParameters {
+            observer_position_in_pc: (0.5, 0.5, 0.5),
+            apparent_magnitude_limit: 0.,
+            max_distance_in_pc: 2.1,
+            chunksize_in_pc: 1.,
+        };
+        let expected_chunks = vec![
+            GalacticChunk {
+                corner: (0., 0., 0.),
+            },
+            GalacticChunk {
+                corner: (0., 0., 1.),
+            },
+            GalacticChunk {
+                corner: (0., 0., -1.),
+            },
+            GalacticChunk {
+                corner: (0., 1., 0.),
+            },
+            GalacticChunk {
+                corner: (0., -1., 0.),
+            },
+            GalacticChunk {
+                corner: (1., 0., 0.),
+            },
+            GalacticChunk {
+                corner: (-1., 0., 0.),
+            },
+            GalacticChunk {
+                corner: (0., 1., 1.),
+            },
+            GalacticChunk {
+                corner: (0., 1., -1.),
+            },
+            GalacticChunk {
+                corner: (0., -1., 1.),
+            },
+            GalacticChunk {
+                corner: (0., -1., -1.),
+            },
+            GalacticChunk {
+                corner: (1., 0., 1.),
+            },
+            GalacticChunk {
+                corner: (1., 0., -1.),
+            },
+            GalacticChunk {
+                corner: (-1., 0., 1.),
+            },
+            GalacticChunk {
+                corner: (-1., 0., -1.),
+            },
+            GalacticChunk {
+                corner: (1., 1., 0.),
+            },
+            GalacticChunk {
+                corner: (1., -1., 0.),
+            },
+            GalacticChunk {
+                corner: (-1., 1., 0.),
+            },
+            GalacticChunk {
+                corner: (-1., -1., 0.),
+            },
+            GalacticChunk {
+                corner: (1., 1., 1.),
+            },
+            GalacticChunk {
+                corner: (1., 1., -1.),
+            },
+            GalacticChunk {
+                corner: (1., -1., 1.),
+            },
+            GalacticChunk {
+                corner: (1., -1., -1.),
+            },
+            GalacticChunk {
+                corner: (-1., 1., 1.),
+            },
+            GalacticChunk {
+                corner: (-1., 1., -1.),
+            },
+            GalacticChunk {
+                corner: (-1., -1., 1.),
+            },
+            GalacticChunk {
+                corner: (-1., -1., -1.),
+            },
+            GalacticChunk {
+                corner: (0., 0., 2.),
+            },
+            GalacticChunk {
+                corner: (0., 0., -2.),
+            },
+            GalacticChunk {
+                corner: (0., 2., 0.),
+            },
+            GalacticChunk {
+                corner: (0., -2., 0.),
+            },
+            GalacticChunk {
+                corner: (2., 0., 0.),
+            },
+            GalacticChunk {
+                corner: (-2., 0., 0.),
+            },
+        ];
+
+        let generated_chunks = GalacticChunk::generate_chunks(&params);
+        for chunk in generated_chunks.iter() {
+            assert!(
+                expected_chunks.contains(&chunk),
+                "{:?} not in {:?}",
+                chunk,
+                expected_chunks
+            );
+        }
+        for chunk in expected_chunks.iter() {
+            assert!(
+                generated_chunks.contains(chunk),
+                "{:?} not in {:?}",
+                chunk,
+                generated_chunks
+            );
         }
     }
 
