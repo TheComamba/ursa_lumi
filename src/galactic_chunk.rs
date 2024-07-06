@@ -80,6 +80,22 @@ impl PartialEq for GalacticChunk {
     }
 }
 
+#[cfg(test)]
+impl From<(f64, f64, f64)> for GalacticChunk {
+    fn from(corner: (f64, f64, f64)) -> Self {
+        Self { corner }
+    }
+}
+
+#[cfg(test)]
+impl From<&(f64, f64, f64)> for GalacticChunk {
+    fn from(corner: &(f64, f64, f64)) -> Self {
+        Self {
+            corner: corner.clone(),
+        }
+    }
+}
+
 fn chunk_numbers_in_first_octant(n: usize) -> Vec<(usize, usize, usize)> {
     let mut chunks_first_octant = Vec::new();
     let radius_squared = (n - 1) * (n - 1);
@@ -198,111 +214,45 @@ mod test {
             chunksize_in_pc: 1.,
         };
         let expected_chunks = vec![
-            GalacticChunk {
-                corner: (0., 0., 0.),
-            },
-            GalacticChunk {
-                corner: (0., 0., 1.),
-            },
-            GalacticChunk {
-                corner: (0., 0., -1.),
-            },
-            GalacticChunk {
-                corner: (0., 1., 0.),
-            },
-            GalacticChunk {
-                corner: (0., -1., 0.),
-            },
-            GalacticChunk {
-                corner: (1., 0., 0.),
-            },
-            GalacticChunk {
-                corner: (-1., 0., 0.),
-            },
-            GalacticChunk {
-                corner: (0., 1., 1.),
-            },
-            GalacticChunk {
-                corner: (0., 1., -1.),
-            },
-            GalacticChunk {
-                corner: (0., -1., 1.),
-            },
-            GalacticChunk {
-                corner: (0., -1., -1.),
-            },
-            GalacticChunk {
-                corner: (1., 0., 1.),
-            },
-            GalacticChunk {
-                corner: (1., 0., -1.),
-            },
-            GalacticChunk {
-                corner: (-1., 0., 1.),
-            },
-            GalacticChunk {
-                corner: (-1., 0., -1.),
-            },
-            GalacticChunk {
-                corner: (1., 1., 0.),
-            },
-            GalacticChunk {
-                corner: (1., -1., 0.),
-            },
-            GalacticChunk {
-                corner: (-1., 1., 0.),
-            },
-            GalacticChunk {
-                corner: (-1., -1., 0.),
-            },
-            GalacticChunk {
-                corner: (1., 1., 1.),
-            },
-            GalacticChunk {
-                corner: (1., 1., -1.),
-            },
-            GalacticChunk {
-                corner: (1., -1., 1.),
-            },
-            GalacticChunk {
-                corner: (1., -1., -1.),
-            },
-            GalacticChunk {
-                corner: (-1., 1., 1.),
-            },
-            GalacticChunk {
-                corner: (-1., 1., -1.),
-            },
-            GalacticChunk {
-                corner: (-1., -1., 1.),
-            },
-            GalacticChunk {
-                corner: (-1., -1., -1.),
-            },
-            GalacticChunk {
-                corner: (0., 0., 2.),
-            },
-            GalacticChunk {
-                corner: (0., 0., -2.),
-            },
-            GalacticChunk {
-                corner: (0., 2., 0.),
-            },
-            GalacticChunk {
-                corner: (0., -2., 0.),
-            },
-            GalacticChunk {
-                corner: (2., 0., 0.),
-            },
-            GalacticChunk {
-                corner: (-2., 0., 0.),
-            },
+            (0., 0., 0.),
+            (0., 0., 1.),
+            (0., 0., -1.),
+            (0., 1., 0.),
+            (0., -1., 0.),
+            (1., 0., 0.),
+            (-1., 0., 0.),
+            (0., 1., 1.),
+            (0., 1., -1.),
+            (0., -1., 1.),
+            (0., -1., -1.),
+            (1., 0., 1.),
+            (1., 0., -1.),
+            (-1., 0., 1.),
+            (-1., 0., -1.),
+            (1., 1., 0.),
+            (1., -1., 0.),
+            (-1., 1., 0.),
+            (-1., -1., 0.),
+            (1., 1., 1.),
+            (1., 1., -1.),
+            (1., -1., 1.),
+            (1., -1., -1.),
+            (-1., 1., 1.),
+            (-1., 1., -1.),
+            (-1., -1., 1.),
+            (-1., -1., -1.),
+            (0., 0., 2.),
+            (0., 0., -2.),
+            (0., 2., 0.),
+            (0., -2., 0.),
+            (2., 0., 0.),
+            (-2., 0., 0.),
         ];
 
         let generated_chunks = GalacticChunk::generate_chunks(&params);
         for chunk in generated_chunks.iter() {
             assert!(
-                expected_chunks.contains(&chunk),
+                expected_chunks.contains(&chunk.corner),
                 "{:?} not in {:?}",
                 chunk,
                 expected_chunks
@@ -310,7 +260,7 @@ mod test {
         }
         for chunk in expected_chunks.iter() {
             assert!(
-                generated_chunks.contains(chunk),
+                generated_chunks.contains(&chunk.into()),
                 "{:?} not in {:?}",
                 chunk,
                 generated_chunks
