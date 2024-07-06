@@ -2,6 +2,15 @@ use simple_si_units::base::Time;
 
 use crate::population::{Population, Subpopulation};
 
+mod inner_bulge;
+mod inner_spheroid;
+mod inner_thick_disc;
+mod older_thin_disc;
+mod outer_bulge;
+mod outer_spheroid;
+mod outer_thick_disc;
+mod young_thin_disc;
+
 pub(super) fn rho0(population: Population, age: Time<f64>) -> f64 {
     match population {
         Population::ThinDisc(Subpopulation::Alive) => {
