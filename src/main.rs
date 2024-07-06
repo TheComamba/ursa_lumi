@@ -7,6 +7,7 @@ use stellar_system::StellarSystem;
 
 mod galactic_chunk;
 mod generation_parameters;
+mod population;
 mod stellar_system;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
