@@ -7,6 +7,7 @@ use stellar_system::StellarSystem;
 
 mod galactic_chunk;
 mod generation_parameters;
+mod mass_density;
 mod population;
 mod stellar_system;
 
@@ -27,4 +28,34 @@ struct Arguments {
     params: PathBuf,
     #[arg(short, long, value_name = "FILE")]
     out: PathBuf,
+}
+
+#[cfg(test)]
+mod tests {
+    #[macro_export]
+    macro_rules! assert_diff {
+        ($x:expr, $y:expr, $d:expr $(, $($arg:tt)+)?) => {
+            let x_f64: f64 = $x as f64;
+            let y_f64: f64 = $y as f64;
+            let d_f64: f64 = $d as f64;
+
+            assert!((x_f64 - y_f64).abs() < d_f64, $($($arg)+)?);
+        }
+    }
+
+    #[macro_export]
+    macro_rules! assert_ratio {
+        ($x:expr, $y:expr, $max_dev:expr $(, $($arg:tt)+)?) => {
+            let x_f64: f64 = $x as f64;
+            let y_f64: f64 = $y as f64;
+            let dev_f64: f64 = $max_dev as f64;
+
+            let ratio = if x_f64.abs() > y_f64.abs() {
+                x_f64 / y_f64
+            } else {
+                y_f64 / x_f64
+            };
+            assert!((ratio.abs()-1.).abs() <= dev_f64, $($($arg)+)?);
+        }
+    }
 }
