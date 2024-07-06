@@ -29,6 +29,33 @@ pub(super) fn rho0(population: Population, age: Time<f64>) -> f64 {
     }
 }
 
+pub(super) fn epsilon(population: Population, age: Time<f64>) -> f64 {
+    match population {
+        Population::ThinDisc(Subpopulation::Alive) => {
+            if age < Time::from_Gyr(0.15) {
+                0.0140
+            } else if age < Time::from_Gyr(1.) {
+                0.0268
+            } else if age < Time::from_Gyr(2.) {
+                0.0375
+            } else if age < Time::from_Gyr(3.) {
+                0.0551
+            } else if age < Time::from_Gyr(5.) {
+                0.0696
+            } else if age < Time::from_Gyr(7.) {
+                0.0785
+            } else {
+                0.0791
+            }
+        }
+        Population::ThinDisc(Subpopulation::WhiteDwarf) => 0.,
+        Population::ThickDisc(Subpopulation::Alive) => 0.,
+        Population::ThickDisc(Subpopulation::WhiteDwarf) => 0.,
+        Population::Spheroid => 0.76,
+        Population::Bulge => 0.,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use crate::{assert_diff, assert_ratio};
@@ -104,5 +131,74 @@ mod tests {
 
         let rho = rho0(Population::Bulge, Time::from_Gyr(0.));
         assert_diff!(0., rho, ACC);
+    }
+
+    #[test]
+    fn epsilon_is_correct() {
+        let eps = epsilon(
+            Population::ThinDisc(Subpopulation::Alive),
+            Time::from_Gyr(0.1),
+        );
+        assert_ratio!(0.0140, eps, ACC);
+
+        let eps = epsilon(
+            Population::ThinDisc(Subpopulation::Alive),
+            Time::from_Gyr(0.5),
+        );
+        assert_ratio!(0.0268, eps, ACC);
+
+        let eps = epsilon(
+            Population::ThinDisc(Subpopulation::Alive),
+            Time::from_Gyr(1.5),
+        );
+        assert_ratio!(0.0375, eps, ACC);
+
+        let eps = epsilon(
+            Population::ThinDisc(Subpopulation::Alive),
+            Time::from_Gyr(2.5),
+        );
+        assert_ratio!(0.0551, eps, ACC);
+
+        let eps = epsilon(
+            Population::ThinDisc(Subpopulation::Alive),
+            Time::from_Gyr(3.5),
+        );
+        assert_ratio!(0.0696, eps, ACC);
+
+        let eps = epsilon(
+            Population::ThinDisc(Subpopulation::Alive),
+            Time::from_Gyr(5.5),
+        );
+        assert_ratio!(0.0785, eps, ACC);
+
+        let eps = epsilon(
+            Population::ThinDisc(Subpopulation::Alive),
+            Time::from_Gyr(7.5),
+        );
+        assert_ratio!(0.0791, eps, ACC);
+
+        let eps = epsilon(
+            Population::ThinDisc(Subpopulation::WhiteDwarf),
+            Time::from_Gyr(0.),
+        );
+        assert_diff!(0., eps, ACC);
+
+        let eps = epsilon(
+            Population::ThickDisc(Subpopulation::Alive),
+            Time::from_Gyr(0.),
+        );
+        assert_diff!(0., eps, ACC);
+
+        let eps = epsilon(
+            Population::ThickDisc(Subpopulation::WhiteDwarf),
+            Time::from_Gyr(0.),
+        );
+        assert_diff!(0., eps, ACC);
+
+        let eps = epsilon(Population::Spheroid, Time::from_Gyr(0.));
+        assert_ratio!(0.76, eps, ACC);
+
+        let eps = epsilon(Population::Bulge, Time::from_Gyr(0.));
+        assert_diff!(0., eps, ACC);
     }
 }
