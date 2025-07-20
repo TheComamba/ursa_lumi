@@ -64,7 +64,7 @@ Parameters for the different populations are given as follows (copied from [Robi
 || $5-7$ | $4.9\cdot10^{-3}$ | $0.0785$ |
 || $7-10$ | $6.6\cdot10^{-3}$ | $0.0791$ |
 || White dwarf | $3.96\cdot10^{-3}$ | - |
-| Thick disc | $11$ | $1.34\cdot10^{-3}$ |
+| Thick disc | $11$ | $1.34\cdot10^{-3}$ | - |
 || White dwarf | $3.04\cdot10^{-4}$ | - |
 | Spheroid | $14$ | $9.32\cdot10^{-6}$ | $0.76$ |
 | Bulge | $10$ | - | - |
