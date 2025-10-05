@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+astro_units = { git = "https://github.com/TheComamba/astro_units.git", branch = "main" }
 clap = { version = "4.5", features = ["derive"] }
 serde = { version = "1.0", default-features = false, features = ["derive"] } # (De)Serialization
 serde_json = { version = "1.0", default-features = false, features = ["std"] }
