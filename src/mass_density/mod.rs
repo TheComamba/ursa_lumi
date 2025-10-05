@@ -1,4 +1,4 @@
-
+use astro_units::time::gigayear;
 use uom::si::f64::Time;
 
 use crate::population::{Population, Subpopulation};
@@ -39,7 +39,7 @@ pub(super) fn rho0(population: Population, age: Time) -> f64 {
     }
 }
 
-pub(super) fn epsilon(population: Population, age: Time<f64>) -> f64 {
+pub(super) fn epsilon(population: Population, age: Time) -> f64 {
     match population {
         Population::ThinDisc(Subpopulation::Alive) => {
             if age < Time::new::<gigayear>(0.15) {
