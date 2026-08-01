@@ -11,4 +11,4 @@ serde_json = { version = "1.0", default-features = false, features = ["std"] }
 uom = { version = "0.38.0", default-features = false, features = ["f64", "si", "serde", "std"] }
 
 [dev-dependencies]
-serial_test = "3.2.0"
+serial_test = "4"
